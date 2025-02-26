@@ -16,10 +16,26 @@ const logFileController = (req,res)=>{
                 })
             }
            
-            console.log('DATA: ', [typeof data, data])
+            
+            // ---------- EXTRACTING IPs ----------
+
+            // validate the IPs Octet and create regExp
+            const IpRegExp = /(?=[0-9]{1,3}\.){3}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/g
+
+            // match with str: all IP arrays
+            const MatchIp = data.match(IpRegExp)
+            
+            console.log('DATA: ', typeof MatchIp)
+
+            // find Unique IPs
+            const uniqueArry = Array.from(MatchIp.reduce((map,ip)=>map.set(ip), new Map()).keys())
+
             return res.status(200).json({
                 success: true,
-                message: `Data Processed: ${data}`
+                message: 'Data Processed',
+                // allIPs: MatchIp,
+                uniqueIps: uniqueArry,
+                // processedData: data
             })
         })
     }
