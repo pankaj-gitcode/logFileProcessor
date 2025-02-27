@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path')
 const { logFiles } = require('../logFiles/asset');
 const ip = require('ip');
-const { ipDatabase } = require('./ipDB');
+const { createDB } = require('./ipDB');
+
 
 const logFileController = async (req,res)=>{
     try{
@@ -51,8 +52,8 @@ const logFileController = async (req,res)=>{
             
             console.log({privateIP, publicIP})
 
-            // invoke iptable
-             ipDatabase('logfile1', privateIP, publicIP );
+            // Invoke db table
+            createDB('abc', privateIP, publicIP)
 
 
             return res.status(200).json({
