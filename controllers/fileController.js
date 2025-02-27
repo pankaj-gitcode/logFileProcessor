@@ -8,7 +8,8 @@ const { createDB } = require('./ipDB');
 const logFileController = async (req,res)=>{
     try{
         // join the log file to current controller path
-        const fileDir = path.join(__dirname, '../logFiles/test.log')
+        // const fileDir = path.join(__dirname, '../logFiles/test.log')
+        const fileDir = path.join(__dirname, '../logFiles/test1.log')
 
         // reading the file
         return fs.readFile(fileDir, 'utf8', (err,data)=>{
@@ -53,7 +54,7 @@ const logFileController = async (req,res)=>{
             console.log({privateIP, publicIP})
 
             // Invoke db table
-            createDB('abc', privateIP, publicIP)
+            createDB('logFile3', privateIP, publicIP)
 
 
             return res.status(200).json({
