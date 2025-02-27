@@ -3,7 +3,8 @@
 
 const express = require('express');
 const dotEnv = require('dotenv/config');
-const {logFileRouter} =  require('./Router/routeLogFile.js')
+const {logFileRouter} =  require('./Router/routeLogFile.js');
+const { dbConnect } = require('./db/db.js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,3 +21,5 @@ app.get('/', (req,res)=>{
 })
 
 app.use('/process', logFileRouter);
+
+dbConnect();

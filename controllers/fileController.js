@@ -1,9 +1,10 @@
 const fs = require('fs');
 const path = require('path')
 const { logFiles } = require('../logFiles/asset');
-const ip = require('ip')
+const ip = require('ip');
+const { ipDatabase } = require('./ipDB');
 
-const logFileController = (req,res)=>{
+const logFileController = async (req,res)=>{
     try{
         // join the log file to current controller path
         const fileDir = path.join(__dirname, '../logFiles/test.log')
@@ -27,7 +28,7 @@ const logFileController = (req,res)=>{
                  // ----- MIXED IPs -----
             // match with str: all IP arrays
             const MatchIp = data.match(IpRegExp)
-            console.log('DATA: ', typeof MatchIp)
+            console.log('MATCHIP: ', MatchIp)
 
                 // ----- UNIQUE IPs -----
             const uniqueIPArry = Array.from(MatchIp.reduce((map,ip)=>map.set(ip), new Map()).keys())
@@ -50,6 +51,8 @@ const logFileController = (req,res)=>{
             
             console.log({privateIP, publicIP})
 
+            // invoke iptable
+             ipDatabase('logfile1', privateIP, publicIP );
 
 
             return res.status(200).json({
