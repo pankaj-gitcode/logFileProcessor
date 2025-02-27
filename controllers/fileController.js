@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path')
 const { logFiles } = require('../logFiles/asset');
+const ip = require('ip')
 
 const logFileController = (req,res)=>{
     try{
@@ -20,22 +21,45 @@ const logFileController = (req,res)=>{
             // ---------- EXTRACTING IPs ----------
 
             // validate the IPs Octet and create regExp
-            const IpRegExp = /(?=[0-9]{1,3}\.){3}[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/g
+            const IpRegExp = /\b(?:(?:25[0-5]|2[0-4][0-9]|1?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|1?[0-9][0-9]?)\b/g
 
+
+                 // ----- MIXED IPs -----
             // match with str: all IP arrays
             const MatchIp = data.match(IpRegExp)
-            
             console.log('DATA: ', typeof MatchIp)
 
-            // find Unique IPs
-            const uniqueArry = Array.from(MatchIp.reduce((map,ip)=>map.set(ip), new Map()).keys())
+                // ----- UNIQUE IPs -----
+            const uniqueIPArry = Array.from(MatchIp.reduce((map,ip)=>map.set(ip), new Map()).keys())
+            // console.log('uniqueIP: ', uniqueIPArry)
+
+
+            //  ----- SEGGRIGATE PUBLIC & PRIVATE IPs -----
+            const privateCIDRs = ['172.16.0.0/16', '10.0.0.0/8', '192.168.0.0/16', '127.0.0.0/8', '169.254.0.0/16'];
+
+            // empty privateIP & PublicIP arrays
+            const privateIP = [];
+            const publicIP = [];
+
+            //check each unique IP contained by the CIDR subnet
+            uniqueIPArry.forEach(ipAddr=>{
+                const privateIPs = privateCIDRs.some(cidrIP=>ip.cidrSubnet(cidrIP).contains(ipAddr)) ;
+                if(privateIPs){privateIP.push(ipAddr)} 
+                else{publicIP.push(ipAddr)}
+            })
+            
+            console.log({privateIP, publicIP})
+
+
 
             return res.status(200).json({
                 success: true,
                 message: 'Data Processed',
+                // processedData: data,
                 // allIPs: MatchIp,
-                uniqueIps: uniqueArry,
-                // processedData: data
+                // uniqueIps: uniqueIPArry,
+                privateIPs: privateIP,
+                publicIPs: publicIP
             })
         })
     }
