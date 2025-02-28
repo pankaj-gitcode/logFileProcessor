@@ -28,7 +28,7 @@ const logFileController = async (req,res)=>{
 
 
                  // ----- MIXED IPs -----
-            // match with str: all IP arrays
+            
             const MatchIp = data.match(IpRegExp)
             console.log('MATCHIP: ', MatchIp)
 
@@ -37,7 +37,7 @@ const logFileController = async (req,res)=>{
             // console.log('uniqueIP: ', uniqueIPArry)
 
 
-            //  ----- SEGGRIGATE PUBLIC & PRIVATE IPs -----
+            //  ----- SEGREGATE PUBLIC & PRIVATE IPs -----
             const privateCIDRs = ['172.16.0.0/16', '10.0.0.0/8', '192.168.0.0/16', '127.0.0.0/8', '169.254.0.0/16'];
 
             // empty privateIP & PublicIP arrays

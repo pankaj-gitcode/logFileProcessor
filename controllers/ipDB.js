@@ -28,7 +28,10 @@ const createDB = async(filename, privateIP, publicIP)=>{
 
         const readTable = await IPModel.findOne({fileName: fileNameNew});
 
+        // check if table already exist
         if(readTable){console.log('Table already exist...') ; return;};
+
+        // create new table
         const createIPTable = await IPModel.create({fileName:fileNameNew, privateIP, publicIP});
         return createIPTable;
     }
