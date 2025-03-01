@@ -10,7 +10,7 @@ const logFileController = async (req,res)=>{
     try{
 
         console.log('req.file: ', req.file)
-        
+
         // stop from undefined if file not uploaded
         if(!req.file || !req.file.filename){
             return res.status(400).json({success:false, message:"No File Uploaded!"});
@@ -18,8 +18,7 @@ const logFileController = async (req,res)=>{
 
 
         // join the log file to current controller path
-        // const fileDir = path.join(__dirname, '../logFiles/test.log')
-        // const fileDir = path.join(__dirname, '../logFiles/test1.log')
+        
         // const fileDir = path.join(__dirname, req.file.path)
         const fileDir = path.join(__dirname, '../uploads', req.file.filename);
 

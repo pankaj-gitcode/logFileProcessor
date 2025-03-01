@@ -29,8 +29,8 @@ export default function FileUpload() {
             console.log("DATA-FRONTEND: ",data)
             console.log('PVT: ', data.privateIps)
             if(!data.success){alert('API Fetch Issue...') }
-            setPrivateIps(data.privateIps || []);
-            setPublicIps(data.publicIps || []);
+            setPublicIps(data.publicIPs || []);
+            setPrivateIps(data.privateIPs || []);
             setFileName(data.fileName || '');
         }
         catch(err){
@@ -42,7 +42,7 @@ export default function FileUpload() {
 
 
   return (<>
-    <div className='flex flex-col items-center justify-center gap-2 h-[80vh] w-[80vw]'>
+    <div className='flex flex-col items-center justify-center gap-2 h-[80vh] w-[80vw] shadow-[2px_2px_10px_5px_rgba(0,0,0,0.5)]'>
         {/*  ----- TITLE ----- */}
         <h1 className='text-2xl '>Upload Log files here:</h1>
 
@@ -56,22 +56,28 @@ export default function FileUpload() {
         className='bg-gradient-to-r from-gray-500 to-gray-700 py-2 px-6 rounded-2xl cursor-pointer active:scale-105'>
         Submit</button>
 
-        <div>
-            <ul>
                 <h1 className='p-2 text-white text-xl'>File Name: {fileName}</h1>
+        <div className='h-[50vh] w-[50vw]  overflow-auto mt-8 border-4 border-gray-600 shadow-[1px_1px_10px_0px_rgba(255,255,255,0.5)]'>
+            <ul className='flex items-start justify-between p-5'>
+                <div>
+                <h1 className='text-xl underline '>PRIVATE_IPs: </h1>
                 {
                     privateIps?.map(pvIP=>(
-                        <li>{pvIP}</li>
+                        <li key={pvIP} className='text-[13px] '>{pvIP}</li>
                     ))
                     
                 }
+                </div>
+                <div>
+                <h1 className='text-xl underline '>PUBLIC_IPs: </h1>
                 {
                     publicIps?.map(pubIPs=>(
-                        <li>{pubIPs}</li>
+                        <li key={pubIPs} className='text-[13px] '>{pubIPs}</li>
                     ))
                 }
+                </div>
             </ul>
-            <p>hi: {privateIps}</p>
+            
         </div>
     </div>
   </>)
