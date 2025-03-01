@@ -16,6 +16,7 @@ const IPSchema = new mongoose.Schema({
 // }
 
 
-const IPModel = mongoose.model.iptable  || mongoose.model('iptable', IPSchema )
+// const IPModel = mongoose.model.iptable  || mongoose.model('iptable', IPSchema )
+const IPModel = mongoose.model.iptable2  || mongoose.model('iptable2', IPSchema )
 module.exports={IPModel}
 

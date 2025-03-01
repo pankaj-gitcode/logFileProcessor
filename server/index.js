@@ -5,12 +5,14 @@ const express = require('express');
 const dotEnv = require('dotenv/config');
 const {logFileRouter} =  require('./Router/routeLogFile.js');
 const { dbConnect } = require('./db/db.js');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 
 app.use(express.json());
+app.use(cors());
 
 app.listen(PORT, (req,res)=>console.log(`Listening PORt is: ${PORT} \n http://localhost:${PORT}`));
 app.get('/', (req,res)=>{

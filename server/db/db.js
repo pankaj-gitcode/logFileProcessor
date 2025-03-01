@@ -3,6 +3,7 @@ const { default: mongoose } = require("mongoose")
 const dbConnect = async()=>{
     try{
         await  mongoose.connect(`${process.env.DB_URL}/filteredIP`)
+        // await  mongoose.connect(`${process.env.DB_URL}`)
         .then(()=>console.log('DB CONNECTED...'))
     }
     catch(err){

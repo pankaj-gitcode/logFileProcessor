@@ -3,20 +3,33 @@ const path = require('path')
 const { logFiles } = require('../logFiles/asset');
 const ip = require('ip');
 const { createDB } = require('./ipDB');
+const multer  = require('multer');
 
 
 const logFileController = async (req,res)=>{
     try{
+
+        console.log('req.file: ', req.file)
+        
+        // stop from undefined if file not uploaded
+        if(!req.file || !req.file.filename){
+            return res.status(400).json({success:false, message:"No File Uploaded!"});
+        }
+
+
         // join the log file to current controller path
         // const fileDir = path.join(__dirname, '../logFiles/test.log')
-        const fileDir = path.join(__dirname, '../logFiles/test1.log')
+        // const fileDir = path.join(__dirname, '../logFiles/test1.log')
+        // const fileDir = path.join(__dirname, req.file.path)
+        const fileDir = path.join(__dirname, '../uploads', req.file.filename);
+
 
         // reading the file
         return fs.readFile(fileDir, 'utf8', (err,data)=>{
 
             if(err){
-                return res.status(403).json({
-                    success:false, message: `ERROR:=> ${err.message}`
+                return res.status(500).json({
+                    success:false, message: `ERROR Reading File:=> ${err.message}`
                 })
             }
            
@@ -51,10 +64,11 @@ const logFileController = async (req,res)=>{
                 else{publicIP.push(ipAddr)}
             })
             
-            console.log({privateIP, publicIP})
+            const filename = req.file.filename;
+            console.log({privateIP, publicIP, filename:req.file.filename});
 
             // Invoke db table
-            createDB('logFile3', privateIP, publicIP)
+            createDB(filename, privateIP, publicIP)
 
 
             return res.status(200).json({
@@ -63,15 +77,16 @@ const logFileController = async (req,res)=>{
                 // processedData: data,
                 // allIPs: MatchIp,
                 // uniqueIps: uniqueIPArry,
+                fileName:filename,
                 privateIPs: privateIP,
                 publicIPs: publicIP
             })
         })
     }
     catch(err){
-        res.status(404).json({
-            success: true,
-            message: `ERROR=>: ${err.message}`
+        res.status(500).json({
+            success: false,
+            message: `Server ERROR=>: ${err.message}`
         })
     }
 }

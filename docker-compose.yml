@@ -1,0 +1,30 @@
+networks:
+  ipNet:
+    driver: bridge
+
+volumes:
+  ipVol:
+    driver: local
+
+services:
+  backend:
+    build: ./server
+    ports:
+      - "2000:2000"
+    networks:
+      - ipNet
+    depends_on:
+      - mongodb
+    env_file:
+      - ./server/.env
+    restart: always
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - ipNet
+    volumes:
+      - ipVol:/data/db
+    restart: always
