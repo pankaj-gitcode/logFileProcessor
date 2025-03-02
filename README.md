@@ -118,7 +118,6 @@ log-file-processor/
 ✅ Add support for different file formats  
 
 
-## **Contributing**
-Feel free to fork the repo, submit PRs, or report issues! 🚀
+
 
 
