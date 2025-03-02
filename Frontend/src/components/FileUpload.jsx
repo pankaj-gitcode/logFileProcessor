@@ -24,7 +24,7 @@ export default function FileUpload() {
             formData.append('logFile', file);
     
             //fetch API to send log file & return the IPs
-            const {data} = await axios.post("http://localhost:5000/process/upload", formData,{
+            const {data} = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/process/upload`, formData,{
                 headers:{'Content-Type': 'multipart/form-data'},
                 onUploadProgress: (progressEvent) => {
                     console.log(`Upload Progress: ${(progressEvent.loaded / progressEvent.total) * 100}%`);

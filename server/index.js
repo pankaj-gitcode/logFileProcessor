@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-app.listen(PORT, (req,res)=>console.log(`Listening PORt is: ${PORT} \n http://localhost:${PORT}`));
+app.listen(PORT, (req,res)=>console.log(`Listening PORT is: ${PORT} \n http://localhost:${PORT}`));
 app.get('/', (req,res)=>{
     res.status(200).json({
         success: true,
