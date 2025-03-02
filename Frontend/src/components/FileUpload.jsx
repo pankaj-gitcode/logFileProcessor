@@ -6,6 +6,7 @@ export default function FileUpload() {
     const [privateIps, setPrivateIps] = useState([]);
     const [publicIps, setPublicIps] = useState([]);
     const [fileName, setFileName] = useState('');
+    const [uploading, setUploading] = useState(false);
 
     // file upload handler
     const fileHandler = (e)=>{
@@ -24,7 +25,10 @@ export default function FileUpload() {
     
             //fetch API to send log file & return the IPs
             const {data} = await axios.post("http://localhost:5000/process/upload", formData,{
-                headers:{'Content-Type': 'multipart/form-data'}
+                headers:{'Content-Type': 'multipart/form-data'},
+                onUploadProgress: (progressEvent) => {
+                    console.log(`Upload Progress: ${(progressEvent.loaded / progressEvent.total) * 100}%`);
+                }
             })
             console.log("DATA-FRONTEND: ",data)
             console.log('PVT: ', data.privateIps)
@@ -36,25 +40,28 @@ export default function FileUpload() {
         catch(err){
             console.log('Component-API-ERROR: ', err.message);
         }
+        setUploading(false); // Hide loading state
 
 
     }
 
 
   return (<>
-    <div className='flex flex-col items-center justify-center gap-2 h-[80vh] w-[80vw] shadow-[2px_2px_10px_5px_rgba(0,0,0,0.5)]'>
+    <div className=' p-3 flex flex-col items-center justify-center gap-2 h-[80vh] w-[80vw] shadow-[2px_2px_10px_5px_rgba(0,0,0,0.5)]'>
         {/*  ----- TITLE ----- */}
         <h1 className='text-2xl '>Upload Log files here:</h1>
 
         {/*  ----- FILE UPLOAD ----- */}
         <input type="file" onChange={fileHandler} accept='.txt,.log,.docx,.xlsx '
         name="" 
-        className='bg-gray-500 py-2 px-2 rounded-2xl cursor-pointer' />
+        className='bg-gradient-to-b from-white to-gray-500 py-2 px-2 rounded-2xl cursor-pointer' />
 
         {/* ----- UPLOAD BUTTON ----- */}
         <button onClick={uploadHandler}
-        className='bg-gradient-to-r from-gray-500 to-gray-700 py-2 px-6 rounded-2xl cursor-pointer active:scale-105'>
+        className='bg-gradient-to-r from-gray-500 to-gray-700 py-2 px-6 rounded-2xl cursor-pointer active:scale-105 duration-300 ease-in-out'>
         Submit</button>
+
+        {uploading && <p>Uploading file, please wait...</p>}
 
                 <h1 className='p-2 text-white text-xl'>File Name: {fileName}</h1>
         <div className='h-[50vh] w-[50vw]  overflow-auto mt-8 border-4 border-gray-600 shadow-[1px_1px_10px_0px_rgba(255,255,255,0.5)]'>
