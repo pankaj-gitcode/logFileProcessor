@@ -75,9 +75,6 @@ docker-compose up -f docker-compose.yml -d
 #### **Without Docker Compose (Using Pre-built Images)**
 
 If you prefer running the project without docker-compose, you can use the following Docker images:
-Without Docker Compose (Using Pre-built Images)
-
-If you prefer running the project without docker-compose, you can use the following Docker images:
 
 Docker Images:
 
@@ -96,7 +93,7 @@ docker run -d -it -p 27017:27017 --name mongo-cont --network ipNet -v ipVol:/dat
 ```
 # Run Backend Container
 ```sh
-docker run -it -d -p 2000:2000 --network ipNet --name backend-cont -e DB_URL='mongodb://mongodb:27017/mydatabase' pankWithout Docker Compose (Using Pre-built Images)
+docker run -it -d -p 2000:2000 --network ipNet --name backend-cont -e DB_URL='mongodb://mongodb:27017/mydatabase' pankajets58/code-backend 
 ```
 
 ---
