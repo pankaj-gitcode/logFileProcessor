@@ -72,6 +72,44 @@ or
 docker-compose up -f docker-compose.yml -d
 ```
 
+#### **Without Docker Compose (Using Pre-built Images)**
+
+If you prefer running the project without docker-compose, you can use the following Docker images:
+Without Docker Compose (Using Pre-built Images)
+
+If you prefer running the project without docker-compose, you can use the following Docker images:
+
+Docker Images:
+
+```
+Backend: pankajets58/code-backend
+
+Frontend: pankajets58/code-frontend
+
+MongoDB: pankajets58/mongo
+```
+Run Containers Individually:
+
+# Run MongoDB Container
+```sh
+docker run -d -it -p 27017:27017 --name mongo-cont --network ipNet -v ipVol:/data/db pankajets58/mongo
+```
+# Run Backend Container
+```sh
+docker run -it -d -p 2000:2000 --network ipNet --name backend-cont -e DB_URL='mongodb://mongodb:27017/mydatabase' pankWithout Docker Compose (Using Pre-built Images)
+```
+
+---
+
+# Run Frontend Container
+```sh
+docker run -it -d -p 5173:5173 --network ipNet --name frontend-cont -e VITE_BACKEND_URL='http://localhost:2000' pankajets58/code-frontend
+```
+
+
+These commands will manually start the services and connect them via Docker networking.
+
+
 ---
 
 ## **Usage**
@@ -85,7 +123,7 @@ docker-compose up -f docker-compose.yml -d
 
 ## **Project Structure**
 ```
-log-file-processor/
+logfileprocessor/
 │── backend/
 │   ├── controllers/
 │   │   ├── fileController.js  # Handles file processing & IP extraction
